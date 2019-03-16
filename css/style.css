@@ -58,6 +58,7 @@ section {
 input[type="text"] {
 	padding: 6px;
 	width: 305px;
+	border-radius: 5px;
 }
 
 .grid-container input[type="text"]:nth-last-child(3) {
@@ -80,7 +81,7 @@ button:hover {
 /********** TABLE **********/
 
 table {
-	border: 1px solid #333;
+	border: 1px solid #666699;
 	border-collapse: collapse;
 	width: 100%;
 }

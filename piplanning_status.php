@@ -28,6 +28,12 @@
 	// Get individual teams names
 	$teamNames = explode(",", $teams);
 	$length    = count($teamNames);
+
+	//////Set cookie
+	$cookie_name = "DEFAULT_ART";
+	$cookie_value = $_POST['artSelect'];
+	setcookie($cookie_name, $cookie_value, time() + (86400 * 30), "/"); //expires in one day
+	/////
 	
 	/////DB V
 	DEFINE('DATABASE_HOST', 'localhost');
@@ -125,17 +131,24 @@
 
 				
 				<label for="art">Agile Release Train (ART):</label>
-
-				<select name"art" id="art" >
-				<?php
+					<?php
+				echo "<select name ='artSelect' id ='artSelect' onchange='cookieChange()'>";
 				  if ($teamsTable->num_rows > 0) {
 					  // output data of each row
-					  while($row = $teamsTable->fetch_assoc()) {
-						  echo "<option>" . $row['parent_name'] . "</option>";
+					  while($row = $teamsTable->fetch_assoc()) { 
+						  if(isset($_COOKIE[$cookie_name])) {
+						  if ($_COOKIE[$cookie_name] == $row['parent_name']){//Compares cookie value to DB value
+								  echo "<option value=" . $row['parent_name'] . " selected>" . $row['parent_name'] . "</option>"; //Puts cookie val as selected
+							  }else{
+								echo "<option value=" . $row['parent_name'] . ">" . $row['parent_name'] . "</option>";
+							  }
+						  } else{
+							 echo "<option value=" . $row['parent_name'] . ">" . $row['parent_name'] . "</option>"; 
+						  }
 					  }
-				  }?>
-				</select>
-					
+				  }
+				echo "</select>";
+					?>
 					
 				<label for="team_name">Names of the Teams</label>
 				<input type="text" name="teams" id="teams" readonly 
@@ -217,6 +230,18 @@
 </div>
 
 <script src="js/script.js"></script>
+<script src="js/script.js"></script>
+<script>
+function cookieChange() {
 
+	<?php
+		//When option is selected, alters cookie to reflect. 
+		$cookie_name = "DEFAULT_ART";
+		$cookie_value = $_POST['artSelect'];
+		setcookie($cookie_name, $cookie_value, time() + (86400 * 30), "/"); // 86400 = 1 day
+
+	?>
+}
+</script>
 </body>
 </html>
