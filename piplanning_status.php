@@ -69,13 +69,10 @@
 		}
 	}
 
-		//Get Date for PI_id field default
-		$todaysDate = getdate();
-		$todayDay = $todaysDate['mday'];
-		$todayMon = $todaysDate['mon'];
-		$todayYear = $todaysDate['year'];
-		$todaysDate = $todayYear.'-'.$todayMon.'-'.$todayDay;
-	
+		$currentCadenceQuery ="SELECT * FROM `cadence` where end_date>CURRENT_DATE() order by start_date limit 1";
+		$GLOBALS['currentCadenceResults'] = mysqli_query($db, $currentCadenceQuery);
+		$todayCadence = $currentCadenceResults->fetch_assoc();
+		$todayCadence = $todayCadence['PI_id'];
 	
 		//Query cadence table for PI_id drop down
 		$cadenceQuery = "SELECT Distinct PI_id FROM cadence";
@@ -111,8 +108,7 @@
 
 				<label for="iteration_id">Program Increment ID</label>
 				<select name="increment_id" id="increment_id">
-					<?php echo "<option value='". ((empty($incrementId)) ? $todaysDate : $incrementId)."'>".((empty($incrementId)) ? $todaysDate : $incrementId)."</option>";?>
-					<?php echo "<option value='".  $todaysDate."'>". $todaysDate ."</option>";?>
+					<?php echo "<option value='". ((empty($incrementId)) ? $todayCadence : $incrementId)."'>".((empty($incrementId)) ? $todayCadence : $incrementId)."</option>";?>
 					<?php	if ($cadenceResults->num_rows > 0){
 						while ($row = $cadenceResults->fetch_assoc()) {
    							echo '<option value="'.$row['PI_id'].'">'.$row['PI_id'].'</option>';
@@ -235,4 +231,8 @@ function cookieChange() {
 	?>
 }
 </script>
+</body>
+</html>
+
 <?php include("./footer.php"); ?>
+
