@@ -99,7 +99,7 @@
 
 
 <body>
-<link rel="stylesheet" type="text/css" href="css/style.css">
+
 <div class="container">
 	<section>
 		<h1>Dolphins Program Increment (PI) Summary Table</h1>
