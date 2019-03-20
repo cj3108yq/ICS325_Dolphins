@@ -24,9 +24,9 @@ a:visited {
 	text-decoration: none;
 }
 
-a:hover {
+/* a:hover {
 	text-decoration: underline;
-}
+} */
 
 /********** CONTAINERS **********/
 
@@ -74,9 +74,9 @@ button {
 	cursor: pointer;
 }
 
-button:hover {
+/* button:hover {
 	background: #d75813;
-}
+} */
 
 /********** TABLE **********/
 
@@ -90,10 +90,7 @@ tr:nth-child(even) {
 	background: #ccc;
 }
 
-tr:hover {
-	background: #333;
-	color: #fff;
-}
+
 
 th {
 	background: #333;

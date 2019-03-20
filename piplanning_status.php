@@ -1,16 +1,14 @@
+<?php
+  $nav_selected = "PIPLANNING";
+  $left_buttons = "YES";
+  $left_selected = "Status";
 
+  include("./nav.php");
+  global $db;
 
- <!-- Group project Iteration 3
-            Dolphins group  ICS325-02  spring 2019
-            Metropolitan State University
-            02/27/2019
-             Tim Eischens qv9750cw@metrostate.edu 
-             Jensina Mart vn7616ai@metrostate.edu
-             Hudeyfi Mohamud yi4875ew@metrostate.edu
-             Aaron Droogsma cj3108yq@metrostate.edu             
-             Hieu Nguyen fm1305vv@metrostate.edu  - NoShow
-             -->
+  date_default_timezone_set('America/Chicago');
 
+?>
 
 <?php
 
@@ -90,7 +88,8 @@
 		////Query for team_names
 		$nameQuery = "SELECT team_name FROM trains_and_teams WHERE parent_name = 'ST-200' ";
 		$GLOBALS['teams']= mysqli_query($db, $nameQuery);
-	 
+		 
+		//Query for BASE_URL database preference
 		$urlQuery = "SELECT value FROM preferences WHERE name = 'BASE_URL' ";
 		$GLOBALS['urlQuery']= mysqli_query($db, $urlQuery);
 
@@ -98,16 +97,9 @@
 		$baseUrl = $urlRow['value'];
 		?>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<title>FP3 Dolphins</title>
-	<link rel="stylesheet" type="text/css" href="css/style.css">
-</head>
 
 <body>
-
+<link rel="stylesheet" type="text/css" href="css/style.css">
 <div class="container">
 	<section>
 		<h1>Program Increment (PI) Summary Table</h1>
@@ -243,5 +235,4 @@ function cookieChange() {
 	?>
 }
 </script>
-</body>
-</html>
+<?php include("./footer.php"); ?>
