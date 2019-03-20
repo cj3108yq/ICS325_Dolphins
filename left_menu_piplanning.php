@@ -27,6 +27,13 @@
   	<br/>Capacity<br/></div>
   </a>
 
+  <a href="piplanning_status.php">
+  	<div <?php if($left_selected == "CAPACITY")
+  	{ echo 'class="menu-left-current-page"'; } ?>>
+  	<img src="./images/piplanning_status.png">
+  	<br/>Status<br/></div>
+  </a>
+
   <a href = "piplanning_summary.php">
   	<div <?php if($left_selected == "SUMMARY")
   	{ echo 'class="menu-left-current-page"'; } ?>>
