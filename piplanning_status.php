@@ -102,7 +102,7 @@
 <link rel="stylesheet" type="text/css" href="css/style.css">
 <div class="container">
 	<section>
-		<h1>Program Increment (PI) Summary Table</h1>
+		<h1>Dolphins Program Increment (PI) Summary Table</h1>
 		<br>
 		<form action="" method="post">
 			<div class="grid-container">
