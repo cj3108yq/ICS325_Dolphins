@@ -22,6 +22,7 @@
         <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"/>
         <link href="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.12/css/dataTables.bootstrap.min.css" rel="stylesheet"/>
         <link rel="stylesheet" href="./mainStyleSheet.css">
+        <link rel="stylesheet" type="text/css" href="css/style.css">
     </head>
 
 <body class="body_background">
