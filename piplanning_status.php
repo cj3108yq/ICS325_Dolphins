@@ -6,20 +6,7 @@
   include("./nav.php");
   global $db;
 
-<<<<<<< HEAD
- <!-- Group project Iteration 3
-            Dolphins group  ICS325-02  spring 2019
-            Metropolitan State University
-            02/27/2019
-             Tim Eischens qv9750cw@metrostate.edu
-             Jensina Mart vn7616ai@metrostate.edu
-             Hudeyfi Mohamud yi4875ew@metrostate.edu
-             Aaron Droogsma cj3108yq@metrostate.edu
-             Hieu Nguyen fm1305vv@metrostate.edu  - NoShow
-             -->
-=======
   date_default_timezone_set('America/Chicago');
->>>>>>> 94f6a193a010bb82bcf29efe62d5a3918bb41f96
 
 ?>
 
@@ -82,14 +69,11 @@
 		}
 	}
 
-<<<<<<< HEAD
-=======
 		$currentCadenceQuery ="SELECT * FROM `cadence` where end_date>CURRENT_DATE() order by start_date limit 1";
 		$GLOBALS['currentCadenceResults'] = mysqli_query($db, $currentCadenceQuery);
 		$todayCadence = $currentCadenceResults->fetch_assoc();
 		$todayCadence = $todayCadence['PI_id'];
-	
->>>>>>> 94f6a193a010bb82bcf29efe62d5a3918bb41f96
+
 		//Query cadence table for PI_id drop down
 		$cadenceQuery = "SELECT Distinct PI_id FROM cadence where length(PI_id)>0";
 		$GLOBALS['cadenceResults'] = mysqli_query($db, $cadenceQuery);
@@ -106,12 +90,8 @@
 		////Query for team_names
 		$nameQuery = "SELECT team_name, parent_name FROM trains_and_teams WHERE parent_name like 'ST%' order by parent_name";
 		$GLOBALS['teams']= mysqli_query($db, $nameQuery);
-<<<<<<< HEAD
 
-=======
-		 
 		//Query for BASE_URL database preference
->>>>>>> 94f6a193a010bb82bcf29efe62d5a3918bb41f96
 		$urlQuery = "SELECT value FROM preferences WHERE name = 'BASE_URL' ";
 		$GLOBALS['urlQuery']= mysqli_query($db, $urlQuery);
 
@@ -119,7 +99,6 @@
 		$baseUrl = $urlRow['value'];
 		?>
 
-<<<<<<< HEAD
 	<?php
 		$wxyz=0;
 		$teamsArray = array();
@@ -154,8 +133,6 @@
 	<title>FP3 Dolphins</title>
 	<link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
-=======
->>>>>>> 94f6a193a010bb82bcf29efe62d5a3918bb41f96
 
 <body>
 
@@ -391,9 +368,5 @@ function updateInputText(value){
 }?>
 </body>
 </html>
-<<<<<<< HEAD
-=======
 
 <?php include("./footer.php"); ?>
-
->>>>>>> 94f6a193a010bb82bcf29efe62d5a3918bb41f96
