@@ -79,7 +79,7 @@
 		$GLOBALS['cadenceResults'] = mysqli_query($db, $cadenceQuery);
 	
 		// Query for parent_names
-		$query = "SELECT DISTINCT parent_name FROM trains_and_teams WHERE type ='art'";
+		$query = "SELECT DISTINCT parent_name FROM trains_and_teams WHERE type ='at'";
 		$GLOBALS['teamsTable'] = mysqli_query($db, $query);
 
 		////Query for team_names
