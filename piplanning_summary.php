@@ -13,15 +13,6 @@
   $left_selected = "CALCULATE";
   /////////////////////////////////////Jens stuff
   
-  //Database results
-  date_default_timezone_set('America/Chicago');
-
-  $sql = "SELECT * FROM `trains_and_teams;`";
-  $result = $db->query($sql);
-
-
-
-	/////////////////////////////////////Jens stuff
 
   ?>
 
@@ -39,11 +30,7 @@
 
                 <?php
 
-                 $sql2 = "SELECT *
-                         FROM trains_and_teams 
-						 LEFT JOIN capacity ON 
-						 trains_and_teams.team_id = capacity.team_id
-						 WHERE total IS NOT NULL;";
+
 				$sql = "SELECT * FROM `capacity`;";
                  $result = $db->query($sql);
 
