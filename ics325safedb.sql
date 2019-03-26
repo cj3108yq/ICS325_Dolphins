@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.3
+-- version 4.8.4
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 21, 2019 at 12:32 AM
+-- Generation Time: Mar 25, 2019 at 07:34 PM
 -- Server version: 10.1.37-MariaDB
--- PHP Version: 7.2.12
+-- PHP Version: 7.2.14
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -19,8 +19,10 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `ics325db`
+-- Database: `ics325safedb`
 --
+CREATE DATABASE IF NOT EXISTS `ics325safedb` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
+USE `ics325safedb`;
 
 -- --------------------------------------------------------
 
@@ -28,6 +30,7 @@ SET time_zone = "+00:00";
 -- Table structure for table `cadence`
 --
 
+DROP TABLE IF EXISTS `cadence`;
 CREATE TABLE `cadence` (
   `sequence` int(11) NOT NULL,
   `PI_id` varchar(255) NOT NULL,
@@ -120,6 +123,7 @@ INSERT INTO `cadence` (`sequence`, `PI_id`, `iteration_id`, `start_date`, `end_d
 -- Table structure for table `capacity`
 --
 
+DROP TABLE IF EXISTS `capacity`;
 CREATE TABLE `capacity` (
   `id` int(11) NOT NULL,
   `team_id` varchar(25) COLLATE utf8_unicode_ci NOT NULL,
@@ -134,12 +138,35 @@ CREATE TABLE `capacity` (
   `total` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+--
+-- Dumping data for table `capacity`
+--
+
+INSERT INTO `capacity` (`id`, `team_id`, `team_name`, `program_increment`, `iteration_1`, `iteration_2`, `iteration_3`, `iteration_4`, `iteration_5`, `iteration_6`, `total`) VALUES
+(1, 'AT-700', 'Agile Team 700', 'PI-1905', 30, 30, 30, 34, 24, 16, 164),
+(2, 'AT-701', 'Agile Team 701', 'PI-1905', 30, 30, 30, 30, 28, 16, 164),
+(3, 'AT-702', 'Agile Team 702', 'PI-1905', 30, 30, 30, 30, 28, 8, 156),
+(4, 'AT-703', 'Agile Team 703', 'PI-1905', 18, 18, 18, 18, 0, 8, 80),
+(5, 'AT-704', 'Agile Team 704', 'PI-1905', 24, 24, 24, 24, 43, 14, 153),
+(6, 'ART-400', 'Agile Release Train 400', 'PI-1905', 60, 60, 60, 64, 52, 32, 328),
+(7, 'ART-401', 'Agile Release Train 401', 'PI-1905', 48, 48, 48, 48, 28, 16, 236),
+(8, 'ART-402', 'Agile Release Train 402', 'PI-1905', 24, 24, 24, 24, 43, 14, 153),
+(9, 'AT-700', 'Agile Team 700', 'PI-1908', 16, 16, 16, 16, 34, 16, 114),
+(10, 'AT-701', 'Agile Team 701', 'PI-1908', 16, 16, 16, 16, 34, 16, 114),
+(11, 'AT-702', 'Agile Team 702', 'PI-1908', 16, 16, 16, 16, 34, 14, 112),
+(12, 'AT-703', 'Agile Team 703', 'PI-1908', 18, 18, 18, 18, 34, 14, 120),
+(13, 'AT-704', 'Agile Team 704', 'PI-1908', 24, 24, 24, 24, 20, 34, 150),
+(14, 'ART-400', 'Agile Release Train 400', 'PI-1908', 32, 32, 32, 32, 68, 32, 228),
+(15, 'ART-401', 'Agile Release Train 401', 'PI-1908', 34, 34, 34, 34, 68, 28, 232),
+(16, 'ART-402', 'Agile Release Train 402', 'PI-1908', 24, 24, 24, 24, 20, 34, 150);
+
 -- --------------------------------------------------------
 
 --
 -- Table structure for table `ceremonies`
 --
 
+DROP TABLE IF EXISTS `ceremonies`;
 CREATE TABLE `ceremonies` (
   `id` int(5) NOT NULL,
   `name` varchar(64) NOT NULL,
@@ -272,6 +299,7 @@ INSERT INTO `ceremonies` (`id`, `name`, `category`, `level`, `description`, `fac
 -- Table structure for table `checklists`
 --
 
+DROP TABLE IF EXISTS `checklists`;
 CREATE TABLE `checklists` (
   `id` int(4) NOT NULL COMMENT 'unique_id',
   `title` varchar(100) NOT NULL,
@@ -293,6 +321,7 @@ CREATE TABLE `checklists` (
 -- Table structure for table `employees`
 --
 
+DROP TABLE IF EXISTS `employees`;
 CREATE TABLE `employees` (
   `number` int(10) NOT NULL,
   `last_name` varchar(30) NOT NULL,
@@ -322,6 +351,7 @@ CREATE TABLE `employees` (
 -- Table structure for table `employee_identification`
 --
 
+DROP TABLE IF EXISTS `employee_identification`;
 CREATE TABLE `employee_identification` (
   `tool_id` varchar(25) NOT NULL,
   `name` varchar(255) NOT NULL,
@@ -336,6 +366,7 @@ CREATE TABLE `employee_identification` (
 -- Table structure for table `membership`
 --
 
+DROP TABLE IF EXISTS `membership`;
 CREATE TABLE `membership` (
   `art_name` varchar(50) DEFAULT NULL,
   `team_name` varchar(50) NOT NULL,
@@ -350,6 +381,7 @@ CREATE TABLE `membership` (
 -- Table structure for table `preferences`
 --
 
+DROP TABLE IF EXISTS `preferences`;
 CREATE TABLE `preferences` (
   `id` int(2) NOT NULL,
   `name` varchar(40) NOT NULL,
@@ -388,7 +420,10 @@ INSERT INTO `preferences` (`id`, `name`, `value`, `comments`) VALUES
 (24, 'SCRUM_MASTER_SUPPORTS_MULTIPLE_TEAMS_SAF', 'TRUE', ''),
 (25, 'SCRUM_MASTER_SUPPORTS_MULTIPLE_TEAMS_ORG', 'TRUE', ''),
 (26, 'PRODUCT_OWNER_SUPPORTS_MULTIPLE_TEAMS_SA', 'TRUE', ''),
-(27, 'PRODUCT_OWNER_SUPPORTS_MULTIPLE_TEAMS_OR', 'TRUE', '');
+(27, 'PRODUCT_OWNER_SUPPORTS_MULTIPLE_TEAMS_OR', 'TRUE', ''),
+(28, 'BASE_URL', 'www.Metro:', NULL),
+(98, 'DEFAULT_ART', 'ST-300', NULL),
+(99, 'DEFAULT_ART', 'Agile Rele', NULL);
 
 -- --------------------------------------------------------
 
@@ -396,6 +431,7 @@ INSERT INTO `preferences` (`id`, `name`, `value`, `comments`) VALUES
 -- Table structure for table `training_calendar`
 --
 
+DROP TABLE IF EXISTS `training_calendar`;
 CREATE TABLE `training_calendar` (
   `training_id` varchar(30) NOT NULL,
   `course_name` varchar(40) NOT NULL,
@@ -418,6 +454,7 @@ CREATE TABLE `training_calendar` (
 -- Table structure for table `training_enrollment`
 --
 
+DROP TABLE IF EXISTS `training_enrollment`;
 CREATE TABLE `training_enrollment` (
   `enrollment_no` int(5) NOT NULL,
   `training_id` varchar(30) NOT NULL,
@@ -430,6 +467,7 @@ CREATE TABLE `training_enrollment` (
 -- Table structure for table `trains_and_teams`
 --
 
+DROP TABLE IF EXISTS `trains_and_teams`;
 CREATE TABLE `trains_and_teams` (
   `team_id` varchar(50) NOT NULL,
   `team_name` varchar(55) NOT NULL,
@@ -498,6 +536,7 @@ INSERT INTO `trains_and_teams` (`team_id`, `team_name`, `parent_name`, `type`) V
 -- Table structure for table `users`
 --
 
+DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users` (
   `id` int(11) NOT NULL,
   `first_name` varchar(50) NOT NULL,
@@ -609,7 +648,7 @@ ALTER TABLE `cadence`
 -- AUTO_INCREMENT for table `capacity`
 --
 ALTER TABLE `capacity`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `users`
