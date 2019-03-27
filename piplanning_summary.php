@@ -67,12 +67,54 @@
   <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
   
   <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
- 
+  <script>
+
+    function getArtTable(str) {
+        if (str == "") {
+            document.getElementById("artTable").innerHTML = "";
+            return;
+        } else { 
+            if (window.XMLHttpRequest) {
+                // code for IE7+, Firefox, Chrome, Opera, Safari
+                xmlhttp = new XMLHttpRequest();
+            } else {
+                // code for IE6, IE5
+                xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+            }
+            xmlhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    document.getElementById("artTable").innerHTML = this.responseText;
+                }
+            };
+            xmlhttp.open("GET","getArt_table.php?q="+str,true);
+            xmlhttp.send();
+        }
+    }
+
+    function getAtTable(str,cadence) {
+        if (str == "") {
+            document.getElementById("atTable").innerHTML = "";
+            return;
+        } else { 
+            if (window.XMLHttpRequest) {
+                // code for IE7+, Firefox, Chrome, Opera, Safari
+                xmlhttp = new XMLHttpRequest();
+            } else {
+                // code for IE6, IE5
+                xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+            }
+            xmlhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    document.getElementById("atTable").innerHTML = this.responseText;
+                }
+            };
+            xmlhttp.open("GET","getAt_table.php?q="+str,true);
+            xmlhttp.send();
+        }
+    }
+    </script>
    
-<body>
-
-
-	
+<body onload = "getArtTable('<?php echo $todayCadence ?>')">
  
 <div class="container">
 	<section>
@@ -83,7 +125,7 @@
 			
 
 				<label for="iteration_id">Program Increment ID</label>
-				<select name="increment_id" id="increment_id"  >
+				<select name="increment_id" id="increment_id" onchange="getArtTable(this.value)" >
 					<?php echo "<option value='". ((empty($incrementId)) ? $todayCadence : $incrementId)."'>".((empty($incrementId)) ? $todayCadence : $incrementId)."</option>";?>
 					<?php	if ($cadenceResults->num_rows > 0){
 						while ($row = $cadenceResults->fetch_assoc()) {
@@ -99,50 +141,20 @@
 			</div>
 		</form>
 	</section>
-	
-	<section>
-	 <table id="table_id" class="display" 
-              width="100%" style="width: 100px;">
-              <thead>
-                <tr id="table-first-row">
-                  <th>ART</th>
-                  <th>Total</th>
-                </tr>
-              </thead>
-              <tbody>
-                <?php
-                   $sql = "SELECT t.team_id, c.total 
-                  FROM capacity c RIGHT OUTER JOIN trains_and_teams t ON (t.team_id = c.team_id)
-                   WHERE c.program_increment = 'PI-1905' OR c.total IS null 
-                   AND t.team_id LIKE 'ART%'
-                    ORDER BY t.team_id";
-        
-                 $result = $db->query($sql);
-                 if($result ->num_rows > 0){
-                   while($row = $result -> fetch_assoc()){
-                     echo
-                     "<tr>
-                         <td>" .$row["team_id"] . "</td>
-                         <td>" .((empty($row["total"])) ? 0 :$row["total"]) ."</td>
-                       </tr>";
-                   }
-                 }
-                  else {
-                   echo "0 results";
-                 }
-                 $result->close();
-                ?>
-              </tbody>
-        </table>
-        <script type="text/javascript">
-         $(document).ready( function () {
-    $('#table_id').DataTable();
-} );
+  <br>
+	<div id = "artTable">Art Table<br></div>
+  <br>
+  <div id = "atTable">Team Table<br></div>
 
+  <script type="text/javascript">
+         $(document).ready( function () {
+         $('#table_id').DataTable();
+             } );
+    </script>
         
 
          
-     </script>
+    
   
   <!-- <img src="images/work_in_progress.jpg" height = "100" width = "100"/>
   <h3> Capacity Summary </h3>
@@ -154,6 +166,6 @@
 << 
   <br> A datatable showing these numbers will be presented here.-->
 
-  
+  </body>
 
-<?php include("./footer.php"); ?>
+<!-- <?php include("./footer.php"); ?> -->
