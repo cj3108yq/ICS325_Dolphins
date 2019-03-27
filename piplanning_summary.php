@@ -11,7 +11,7 @@
   $nav_selected = "PIPLANNING";
   $left_buttons = "YES"; 
   $left_selected = "CALCULATE";
-  /////////////////////////////////////Jens stuff
+  
   
 
  
@@ -60,11 +60,17 @@
   //Query cadence table for PI_id drop down
   $cadenceQuery = "SELECT Distinct PI_id FROM cadence";
   $GLOBALS['cadenceResults'] = mysqli_query($db, $cadenceQuery);
-
+ 
 
 
   ?>
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
+  
+  <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
+ 
+   
 <body>
+
 
 	
  
@@ -74,84 +80,68 @@
 		<br>
 		<form action="" method="post">
 			<div class="grid-container">
-				
-				<input type="text" name="base_url" id="base_url" hidden value="<?php echo (empty($baseUrl)) ? 'https://metro' : $baseUrl; ?>">
+			
 
 				<label for="iteration_id">Program Increment ID</label>
-				<select name="increment_id" id="increment_id">
+				<select name="increment_id" id="increment_id"  >
 					<?php echo "<option value='". ((empty($incrementId)) ? $todayCadence : $incrementId)."'>".((empty($incrementId)) ? $todayCadence : $incrementId)."</option>";?>
 					<?php	if ($cadenceResults->num_rows > 0){
 						while ($row = $cadenceResults->fetch_assoc()) {
-   							echo '<option value="'.$row['PI_id'].'">'.$row['PI_id'].'</option>';
-						}
+                 echo '<option value="'.$row['PI_id'].'">'.$row['PI_id'].'</option>';
+                
+            }
+           
 					}
 					?>
 				</select>
 				
-				<div>
-				
-					<button>Generate</button>
-				</div>
+			
 			</div>
 		</form>
 	</section>
 	
 	<section>
-	 <table id="info" cellpadding="0" cellspacing="0" border="0" class="datatable table table-striped table-bordered datatable-style"
+	 <table id="table_id" class="display" 
               width="100%" style="width: 100px;">
               <thead>
                 <tr id="table-first-row">
-
                   <th>ART</th>
                   <th>Total</th>
                 </tr>
               </thead>
-
               <tbody>
-
                 <?php
-
-
-				$sql = "SELECT * FROM `capacity`;";
+                   $sql = "SELECT t.team_id, c.total 
+                  FROM capacity c RIGHT OUTER JOIN trains_and_teams t ON (t.team_id = c.team_id)
+                   WHERE c.program_increment = 'PI-1905' OR c.total IS null 
+                   AND t.team_id LIKE 'ART%'
+                    ORDER BY t.team_id";
+        
                  $result = $db->query($sql);
-
-                 if($result -> num_rows > 0){
+                 if($result ->num_rows > 0){
                    while($row = $result -> fetch_assoc()){
-
-
-
-
                      echo
                      "<tr>
-
                          <td>" .$row["team_id"] . "</td>
-                         <td>" .$row["total"] ."</td>
-
+                         <td>" .((empty($row["total"])) ? 0 :$row["total"]) ."</td>
                        </tr>";
                    }
-
                  }
                   else {
                    echo "0 results";
                  }
-
                  $result->close();
                 ?>
-
               </tbody>
         </table>
-
-
         <script type="text/javascript">
+         $(document).ready( function () {
+    $('#table_id').DataTable();
+} );
 
-          $(document).ready(function () {
+        
 
-             $('#info').DataTable({
-
-             });
-
-         });
-
+         
      </script>
   
   <!-- <img src="images/work_in_progress.jpg" height = "100" width = "100"/>
