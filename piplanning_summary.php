@@ -91,7 +91,7 @@
         }
     }
 
-    function getAtTable(str,cadence) {
+    function getAtTable(str, cadence) {
         if (str == "") {
             document.getElementById("atTable").innerHTML = "";
             return;
@@ -108,7 +108,7 @@
                     document.getElementById("atTable").innerHTML = this.responseText;
                 }
             };
-            xmlhttp.open("GET","getAt_table.php?q="+str,true);
+            xmlhttp.open("GET","getAt_table.php?q="+str+"&p="+cadence,true);
             xmlhttp.send();
         }
     }
