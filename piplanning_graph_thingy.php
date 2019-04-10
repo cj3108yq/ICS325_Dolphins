@@ -140,7 +140,7 @@ chart.render();
 <body onload = "getArtTable('<?php echo $todayCadence ?>')">
 <div class="container">
 	<section>
-		<h1>Dolphins Capacity Summary Table</h1>
+		<h1>Dolphins Capacity Trends</h1>
 		<br>
 		<form action="" method="post">
 			<div class="grid-container">
