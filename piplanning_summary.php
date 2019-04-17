@@ -142,13 +142,13 @@
 		</form>
 	</section>
   <br>
-	<div id = "artTable">Art Table<br></div>
+	<div id = "artTable" >Art Table<br></div>
   <br>
   <div id = "atTable">Team Table<br></div>
 
   <script type="text/javascript">
          $(document).ready( function () {
-         $('#div_table').DataTable();
+         $('#artTable').DataTable();
         
              } );
     </script>
