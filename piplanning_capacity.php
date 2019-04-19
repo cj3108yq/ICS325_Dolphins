@@ -13,8 +13,10 @@
           FROM `cadence`
           WHERE start_date <= '" . date("Y-m-d") . "'
           AND end_date >= '". date("Y-m-d") . "';";
+		  
+  $sql2 = "SELECT * FROM `cadence`;";
   $result = $db->query($sql);
-  if ($result->num_rows > 0) {
+  if($result->num_rows > 0) {
     $row = $result->fetch_assoc();
     $program_increment = $row["program_increment"];
     $iteration = $row["iteration"];
