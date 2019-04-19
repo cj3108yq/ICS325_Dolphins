@@ -1,7 +1,7 @@
 <?php
 
   $nav_selected = "PIPLANNING";
-  $left_buttons = "YES"; 
+  $left_buttons = "YES";
   $left_selected = "CALCULATE";
 
   include("./nav.php");
@@ -9,15 +9,15 @@
 
   date_default_timezone_set('America/Chicago');
 
-  $sql = "SELECT program_increment, iteration, sequence
+  $sql = "SELECT PI_id, iteration_id, sequence
           FROM `cadence`
           WHERE start_date <= '" . date("Y-m-d") . "'
           AND end_date >= '". date("Y-m-d") . "';";
   $result = $db->query($sql);
   if ($result->num_rows > 0) {
     $row = $result->fetch_assoc();
-    $program_increment = $row["program_increment"];
-    $iteration = $row["iteration"];
+    $program_increment = $row["PI_id"];
+    $iteration = $row["iteration_id"];
     $sequence = $row["sequence"];
     $result->close();
   } else {
@@ -30,7 +30,7 @@
           FROM cadence
           WHERE start_date <= '" . date("Y-m-d") . "'
           OR end_date >= '" . date("Y-m-d") . "'
-          GROUP BY program_increment
+          GROUP BY PI_id
         ) as PI
         WHERE PI.start_date <= '" . date("Y-m-d") . "'
         AND PI.end_date >= '" . date("Y-m-d") . "';";
@@ -57,25 +57,25 @@
 
   if (isset($_POST['showNext'])) {
     $sequence++;
-    $sql = "SELECT program_increment, iteration, sequence
+    $sql = "SELECT PI_id, iteration_id, sequence
             FROM `cadence`
             WHERE sequence='".$sequence."';";
     $result = $db->query($sql);
     if ($result->num_rows > 0) {
       $row = $result->fetch_assoc();
-      $program_increment = $row["program_increment"];
-      $iteration = $row["iteration"];
+      $program_increment = $row["PI_id"];
+      $iteration = $row["iteration_id"];
       $sequence = $row["sequence"];
       $result->close();
     } else {
-      $sql = "SELECT program_increment, iteration, sequence
+      $sql = "SELECT PI_id, iteration_id, sequence
               FROM `cadence`
               WHERE sequence='1';";
       $result = $db->query($sql);
       if ($result->num_rows > 0) {
         $row = $result->fetch_assoc();
-        $program_increment = $row["program_increment"];
-        $iteration = $row["iteration"];
+        $program_increment = $row["PI_id"];
+        $iteration = $row["iteration_id"];
         $sequence = $row["sequence"];
         $result->close();
     }
@@ -87,7 +87,7 @@
       $default_data = true;
       $default_total = 0;
 
-      $sql = "SELECT * FROM `membership` where team_id='".$selected_team."';";
+      $sql = "SELECT * FROM `membership` where team_name='".$selected_team."';";
       $result = $db->query($sql);
       if ($result->num_rows > 0) {
         while ($row = $result->fetch_assoc()) {
@@ -125,7 +125,7 @@
       $default_data = true;
       $default_total = 0;
 
-      $sql = "SELECT * FROM `membership` where team_id='".$selected_team."';";
+      $sql = "SELECT * FROM `membership` where team_name='".$selected_team."';";
       $result = $db->query($sql);
       if ($result->num_rows > 0) {
         while ($row = $result->fetch_assoc()) {
@@ -164,7 +164,7 @@
     }
   }
 
-  $sql5 = "SELECT * FROM `cadence` WHERE program_increment='".$program_increment."';";
+  $sql5 = "SELECT * FROM `cadence` WHERE PI_id='".$program_increment."';";
   $result5 = $db->query($sql5);
   if ($result5->num_rows > 0) {
       $row5 = $result5->fetch_assoc();
@@ -227,7 +227,7 @@
             <select name="select-team" onchange="this.form.submit()" style="border: 0; text-align: left;">
               <?php
               //$sql = "SELECT team_id, team_name FROM `capacity` where program_increment='".$program_increment."';";
-              $sql = "SELECT team_id, name FROM `trains_and_teams` where type='AT';";
+              $sql = "SELECT team_id, team_name FROM `trains_and_teams` where type='AT';";
               $result = $db->query($sql);
 
               if ($result->num_rows > 0) {
@@ -315,9 +315,9 @@
 
           <?php
 
-          $sql = "SELECT last_name, first_name, role FROM `membership`
+          $sql = "SELECT first_name, last_name, role FROM `membership`
                   NATURAL JOIN `employees`
-                  WHERE team_id='".$selected_team."';";
+                  WHERE team_name='".$selected_team."';";
 
           $result = $db->query($sql);
 
@@ -379,7 +379,7 @@
               echo "</td></tr>";
           }
 
-          $result->close();
+          //$result->close();
           ?>
 
           </tbody>
