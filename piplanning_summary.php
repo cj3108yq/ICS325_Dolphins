@@ -38,9 +38,9 @@ $image = "<img src='images/edit.png' align='right' style='max-height: 15px;'/>";
 	if ($cadenceResults2->num_rows > 0){
 
 		while ($row2 = $cadenceResults2->fetch_assoc()) {
-			
+			$piID =$row2['PI_id'];
 			//objArray is an array that holds objects that are then converted into graph bars
-			echo "<script type='text/javascript'>var objArray = [];</script>"; 
+			echo "<script type='text/javascript'>var objArray = [];piID = String('$piID');</script>"; 
 			$q = $row2['PI_id']; //For every PI_ID, a new query is created.			
 			$sql = "SELECT t.team_id, c.total
 					FROM capacity c RIGHT OUTER JOIN trains_and_teams t ON (t.team_id = c.team_id)
@@ -78,20 +78,23 @@ $image = "<img src='images/edit.png' align='right' style='max-height: 15px;'/>";
 							$teamIDAT = $rowAT["team_id"];
 							echo "<script type='text/javascript'>
 							var totalJSAT = parseInt('$totalAT', 10);
-							//alert(totalJSAT);
 							var teamIDJSAT =  String('$teamIDAT');
+							//alert(totalJSAT);
 							objATArray.push({y: totalJSAT, label: teamIDJSAT});
 							</script>"; 
 							}
 					}//This is where the AT ends
+					
 					echo "<script type='text/javascript'>
-					primAT[teamIDJS] = objATArray;
+					//teamID & PIID are concatenated to form a unique ID per ART.
+					var piTeamID = piID + teamIDJS
+					primAT[piTeamID] = objATArray;
 					</script>";
 				}
 			}
-			$piID =$row2['PI_id'];
+			
 			echo "<script type='text/javascript'>
-			piID = String('$piID');
+			
 			primArray[piID] = objArray; 
 			</script>";
 		
@@ -109,7 +112,10 @@ $image = "<img src='images/edit.png' align='right' style='max-height: 15px;'/>";
   
   <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
   <script>
+	var pidNum; //Step 1: var for holding PIID is declared here
     function getArtTable(str) {
+		pidNum = str; //Step 2: var snags PIID
+		
         if (str == "") {
             document.getElementById("artTable").innerHTML = "";
             return;
@@ -152,20 +158,21 @@ $image = "<img src='images/edit.png' align='right' style='max-height: 15px;'/>";
 		});
 		
 		
-
-		function parseDataPoints () {dataPointsJS;};
+		//Not sure if these do anything. Keeping them because I'm too scare to delete outright.
+		//function parseDataPoints () {dataPointsJS;};
+		//parseDataPoints();
+		//chart.options.data[0].dataPoints = dataPointsJS;
 		
-		parseDataPoints();
-		chart.options.data[0].dataPoints = dataPointsJS;
 		chart.render();
-		 
+		var chartAT = new CanvasJS.Chart("chartContainerAT", {});
+		chartAT.destoy();
+
     }
 	//Function for when a user clicks a graph bar. 
 	function onClick(e) {
-		
-		
-		var label = e.dataPoint.label;
-		var dataPointsJSAT = primAT[label]; 
+		//Step 3: pidNum is then concatenated here with teamID to form unique ID
+		var label = pidNum+e.dataPoint.label;
+		var dataPointsJSAT = primAT[label]; //Step 4: Unique ID is not used to call data.
 		
 		var chartAT = new CanvasJS.Chart("chartContainerAT", {
 			animationEnabled: true,
@@ -182,10 +189,9 @@ $image = "<img src='images/edit.png' align='right' style='max-height: 15px;'/>";
 				dataPoints: dataPointsJSAT
 			}]
 		});
-		function parseDataPoints2 () {dataPointsJSAT;};
-		
-		parseDataPoints2();
-		chartAT.options.data[0].dataPoints = dataPointsJSAT;
+		//function parseDataPoints2 () {dataPointsJSAT;};
+		//parseDataPoints2();
+		//chartAT.options.data[0].dataPoints = dataPointsJSAT;
 		chartAT.render();
 		
 	}
