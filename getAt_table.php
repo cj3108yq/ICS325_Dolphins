@@ -10,7 +10,10 @@
 <?php
     $q = trim($_GET['q']);
     $pi = trim($_GET['p']);
-    
+
+    $atSum = 0;
+
+
     $con = mysqli_connect('localhost','root','','ics325safedb');
         if (!$con) {
         die('Could not connect: ' . mysqli_error($con));    
@@ -20,7 +23,9 @@
 ?>
 
 
+
 	 <table id="table_id" class="table_id" width="100%" style="width: 70%;">
+
         <thead>
             <tr id="table-first-row">
                   <th>AT</th>
@@ -44,8 +49,11 @@
                          echo
                         "<tr>
                              <td>" .$row["team_id"] . "</td>
-                             <td>" .((empty($row["total"])) ? 0 :$row["total"]) ."</td>
-                         </tr>";
+
+                             <td>" .((empty($row["total"])) ? 0 :$row["total"]) ."</td>";
+                                     $atSum += $row["total"];
+                         echo "</tr>";
+
                         }
                     }
                     else {
@@ -54,10 +62,19 @@
                  $result->close();
             ?>
         </tbody>
+
+        <tfoot>
+            <tr>
+                    <td> Total of Train</td>
+              
+                    <td><?php echo $atSum ?></td> 
+            </tr>
+        </tfoot>
      </table>
     <script type="text/javascript">
          $(document).ready( function () {
-         $('#table_id').DataTable();
+         $('#table_ids').DataTable();
+
              } );
     </script>
 </body>

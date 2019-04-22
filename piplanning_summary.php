@@ -5,6 +5,7 @@ $nav_selected = "PIPLANNING";
 $left_buttons = "YES";
 $left_selected = "CADENCE";
 
+
 include("./nav.php");
 global $db;
 
@@ -270,3 +271,4 @@ $image = "<img src='images/edit.png' align='right' style='max-height: 15px;'/>";
   </body>
 
 <!-- <?php include("./footer.php"); ?> -->
+
