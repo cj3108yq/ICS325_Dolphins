@@ -9,7 +9,9 @@
 
 <?php
     $q = trim($_GET['q']);
+
     $artSum = 0;
+
     $con = mysqli_connect('localhost','root','','ics325safedb');
         if (!$con) {
         die('Could not connect: ' . mysqli_error($con));    
@@ -17,14 +19,18 @@
 ?>
 
 
+
 	 <table id="table_id" class="table_id" width="100%" style="width: 70%;" )>
+
         <thead>
             <tr id="table-first-row">
                   <th>ART</th>
                   <th>Total</th>
             </tr>
         </thead>
+
         <tbody onload = "getAtTable($row["team_id"],$q)">
+
         
              <?php
                 
@@ -34,6 +40,7 @@
                 
                    AND t.team_id LIKE 'ART-%%%'
                     ORDER BY t.team_id";
+
 
                  $result = $con->query($sql);
                     if($result ->num_rows > 0){
@@ -47,6 +54,7 @@
                              $artSum += $row['total'];
     
                         echo "</tr>";
+
                         }
                     }
                     else {
@@ -58,8 +66,10 @@
         <tfoot>
             <tr>
                     <td> Total of Cadence</td>
+
               
                     <td><?php echo $artSum ?></td> 
+
             </tr>
         </tfoot>
      </table >
