@@ -2,7 +2,7 @@
 
   $nav_selected = "PIPLANNING";
   $left_buttons = "YES";
-  $left_selected = "CALCULATE";
+  $left_selected = "CAPACITY";
 
   include("./nav.php");
   global $db;

@@ -2,7 +2,7 @@
 
 $nav_selected = "PIPLANNING";
 $left_buttons = "YES"; 
-$left_selected = "SUMMARY";
+$left_selected = "TREND";
 
 
 include("./nav.php");
@@ -118,7 +118,7 @@ $GLOBALS['cadenceResults'] = mysqli_query($db, $cadenceQuery);
 
 <div class="container">
 <section>
-  <h1>Dolphins Capacity Summary Table</h1>
+  <h1>Future Trending Analysis</h1>
   <br>
   <form action="" method="post">
     <div class="grid-container">

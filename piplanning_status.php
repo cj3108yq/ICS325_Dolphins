@@ -1,7 +1,7 @@
 <?php
   $nav_selected = "PIPLANNING";
   $left_buttons = "YES";
-  $left_selected = "Status";
+  $left_selected = "STATUS";
   include("./nav.php");
   global $db;
   date_default_timezone_set('America/Chicago');

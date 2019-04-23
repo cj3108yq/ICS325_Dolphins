@@ -3,7 +3,7 @@
 
 $nav_selected = "PIPLANNING";
 $left_buttons = "YES";
-$left_selected = "CADENCE";
+$left_selected = "SUMMARY";
 
 
 include("./nav.php");
@@ -146,7 +146,7 @@ $image = "<img src='images/edit.png' align='right' style='max-height: 15px;'/>";
 			exportEnabled: true,
 			theme: "light1", // "light1", "light2", "dark1", "dark2"
 			title:{
-				text: "Simple Column Chart with Index Labels"
+				text: "Program Increment"
 			},
 			data: [{
 				type: "column", //change type to bar, line, area, pie, etc
@@ -180,7 +180,7 @@ $image = "<img src='images/edit.png' align='right' style='max-height: 15px;'/>";
 			exportEnabled: true,
 			theme: "light1", // "light1", "light2", "dark1", "dark2"
 			title:{
-				text: "Simple Column Chart with Index Labels"
+				text: "Agile Teams"
 			},
 			data: [{
 				type: "column", //change type to bar, line, area, pie, etc
@@ -262,10 +262,10 @@ $image = "<img src='images/edit.png' align='right' style='max-height: 15px;'/>";
         
 
 <!--This is where the chart container appears.-->       
-<div id="chartContainer" style="height: 370px; width: 100%;"></div>
+<div id="chartContainer" style="height: 370px; width: 75%;"></div>
 <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
 
-<div id="chartContainerAT" style="height: 370px; width: 100%;"></div>
+<div id="chartContainerAT" style="height: 370px; width: 75%;"></div>
 <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
   
   </body>

@@ -28,7 +28,7 @@
   </a>
 
   <a href="piplanning_status.php">
-  	<div <?php if($left_selected == "CAPACITY")
+  	<div <?php if($left_selected == "STATUS")
   	{ echo 'class="menu-left-current-page"'; } ?>>
   	<img src="./images/piplanning_status.png">
   	<br/>Status<br/></div>
