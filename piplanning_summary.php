@@ -146,7 +146,7 @@ $image = "<img src='images/edit.png' align='right' style='max-height: 15px;'/>";
 			exportEnabled: true,
 			theme: "light1", // "light1", "light2", "dark1", "dark2"
 			title:{
-				text: "Program Increment"
+				text: "Program Increment Trains"
 			},
 			data: [{
 				type: "column", //change type to bar, line, area, pie, etc
@@ -232,7 +232,7 @@ $image = "<img src='images/edit.png' align='right' style='max-height: 15px;'/>";
 			
 
 				<label for="iteration_id">Program Increment ID</label>
-				<select name="increment_id" id="increment_id" onchange="getArtTable(this.value)" >
+				<select name="increment_id" id="increment_id" onchange="getArtTable(this.value); getAtTable();" >
 					<?php echo "<option value='". ((empty($incrementId)) ? $todayCadence : $incrementId)."'>".((empty($incrementId)) ? $todayCadence : $incrementId)."</option>";?>
 					<?php	if ($cadenceResults->num_rows > 0){
 						while ($row = $cadenceResults->fetch_assoc()) {
@@ -255,7 +255,8 @@ $image = "<img src='images/edit.png' align='right' style='max-height: 15px;'/>";
 
   <script type="text/javascript">
          $(document).ready( function () {
-         $('#div_table').DataTable();
+         $('#table_id').DataTable();
+		 $('#table_ids').DataTable();
         
              } );
     </script>
@@ -264,6 +265,7 @@ $image = "<img src='images/edit.png' align='right' style='max-height: 15px;'/>";
 <!--This is where the chart container appears.-->       
 <div id="chartContainer" style="height: 370px; width: 75%;"></div>
 <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+<h4>Total capacity of PI = </php echo $artSum?></h4>
 
 <div id="chartContainerAT" style="height: 370px; width: 75%;"></div>
 <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>

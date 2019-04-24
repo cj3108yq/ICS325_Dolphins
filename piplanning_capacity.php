@@ -249,8 +249,7 @@
           <?php
             echo "&nbsp;".$program_increment."<br/>";
             echo "&nbsp;".$iteration."<br/>";
-            echo "&nbsp;".$duration."<br/>";
-            echo "&nbsp;".$overhead_percentage."%<br/>";
+            
           ?>
           </td>
           <td width="50%"  style="font-weight: bold;">
@@ -280,11 +279,11 @@
 
             }
              ?>
-             <div style="float: right; margin-right: 10px; text-align: center; font-size: 12px;">
+             <div style="float: right; margin-right: 10px; text-align: center; font-size: 8px;">
                <div id="capacity-calc-bignum" name="totalcap"><?php echo $totalcapacity ?></div>
                Total Capacity for the Program Increment
              </div>
-            <div style="float: right; margin-right: 10px; text-align: center; font-size: 12px;">
+            <div style="float: right; margin-right: 10px; text-align: center; font-size: 8px;">
               <div id="capacity-calc-bignum" name="icap"><?php echo $icapacity ?></div>
               Total Capacity for this Iteration
             </div>
@@ -392,7 +391,7 @@
 
       </table>
       <input type="submit" id="capacity-button-blue" name="submit0" value="Submit">
-      <input type="submit" id="capacity-button-blue" name="restore" value="Restore Defaults">
+    <!--   <input type="submit" id="capacity-button-blue" name="restore" value="Restore Defaults"> -->
       <input type="submit" id="capacity-button-blue" name="showNext" value="Show Next Iteration">
         <input type="hidden" name="current-team-selected" value="<?php echo $selected_team; ?>">
         <input type="hidden" name="current-sequence" value="<?php echo $sequence; ?>">

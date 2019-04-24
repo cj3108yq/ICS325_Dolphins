@@ -73,7 +73,7 @@
      </table>
     <script type="text/javascript">
          $(document).ready( function () {
-         $('#table_ids').DataTable();
+         $('#atTable').DataTable();
 
              } );
     </script>
