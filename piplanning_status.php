@@ -114,7 +114,7 @@
 				
 				<label for="art">Agile Release Train (ART):</label>
 					
-				<select name ='artSelect' id ='artSelect' onchange='cookieChange();form.submit();'>
+				<select name ='artSelect' id ='artSelect' onchange='cookieChange(); form.submit();' onload='form.submit();'>
 				<?php
 				  if ($teamsTable->num_rows > 0) {
 					  // output data of each row
@@ -143,7 +143,10 @@
 							"
 				
 				
-				<div></div>
+				<div>
+			
+				
+				</div>
 				
 				<div>
 				
