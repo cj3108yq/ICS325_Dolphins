@@ -57,9 +57,12 @@
 			$selected_art = $_POST['current-art-selected'];
 
 	}
+	if (isset($_POST['current-pi-selected'])) {
+			$selected_pi = $_POST['current-pi-selected'];
+	}
 
 	if (isset($_POST['showNext'])) {
-		$sequence+=1;
+		$sequence++;
 		$sql = "SELECT PI_id, iteration_id, sequence
 						FROM `cadence`
 						WHERE sequence='".$sequence."';";
@@ -192,6 +195,20 @@
 		}
 		}
 	}
+	if (isset($_POST['select-pi'])) {
+		$selected_pi = $_POST['select-pi'];
+		$sql = "SELECT PI_id, iteration_id, sequence
+						FROM `cadence`
+						WHERE PI_id='".$selected_pi."';";
+		$result = $db->query($sql);
+		if ($result->num_rows > 0) {
+			$row = $result->fetch_assoc();
+			$program_increment = $row["PI_id"];
+			$iteration = $row["iteration_id"];
+			$sequence = $row["sequence"];
+			$result->close();
+		}
+	}
 
 	if (!isset($_POST['select-team']) && !isset($_POST['current-team-selected'])) {
 		$sql = "SELECT team_id FROM `capacity` where program_increment='".$program_increment."' LIMIT 1;";
@@ -204,7 +221,7 @@
 		}
 	}
 
-	$sql5 = "SELECT * FROM `cadence` WHERE PI_id='".$program_increment."';";
+	$sql5 = "SELECT * FROM `cadence` WHERE iteration_id='".$iteration."';";
 	$result5 = $db->query($sql5);
 	if ($result5->num_rows > 0) {
 			$row5 = $result5->fetch_assoc();
@@ -248,12 +265,6 @@
 
 	?>
 
-<!--
-<style>
-input {
-  width: 20%;
-}
--->
 </style>
 
 
@@ -296,16 +307,16 @@ input {
 						<select name="select-team" onchange="this.form.submit()" style="border: 0; text-align: left;">
 							<?php
 							//$sql = "SELECT team_id, team_name FROM `capacity` where program_increment='".$program_increment."';";
-							$sql = "SELECT team_id, team_name FROM `trains_and_teams` where type='AT';";
+							$sql = "SELECT team_id, team_name FROM `trains_and_teams` where type != 'art' and type != 'st' and parent_name='".$selected_art."';";
 							$result = $db->query($sql);
 
 							if ($result->num_rows > 0) {
 
 									while ($row = $result->fetch_assoc()) {
 										if ( trim($selected_team) == trim($row["team_id"]) ) {
-											echo '<option value="'.$row["team_id"].'" selected>('.$row["team_id"].': '.$row["name"].')</option>';
+											echo '<option value="'.$row["team_id"].'" selected>('.$row["team_id"].': '.$row["team_name"].')</option>';
 										}else{
-											echo '<option value="'.$row["team_id"].'">('.$row["team_id"].': '.$row["name"].')</option>';
+											echo '<option value="'.$row["team_id"].'">('.$row["team_id"].': '.$row["team_name"].')</option>';
 										}
 
 									}
@@ -313,7 +324,7 @@ input {
 							?>
 						</select>
 					</br>
-						<select name="program_increment" onchange="this.form.submit()" style="border: 0; text-align: left;">
+						<select name="select-pi" onchange="this.form.submit()" style="border: 0; text-align: left;">
 							<?php
 							$sql = "SELECT distinct(PI_id)FROM `cadence` where duration>0;";
 							//$sql = "SELECT team_id, team_name FROM `trains_and_teams` where type='AT';";
@@ -322,9 +333,11 @@ input {
 							if ($result->num_rows > 0) {
 
 									while ($row = $result->fetch_assoc()) {
-										//if ( trim($program_increment) == trim($row["PI_id"]) ) {
+										if ( trim($program_increment) == trim($row["PI_id"]) ) {
 											echo '<option value="'.$row["PI_id"].'" selected>('.$row["PI_id"].')</option>';
-										//}
+										}else{
+											echo '<option value="'.$row["PI_id"].'">('.$row["PI_id"].')</option>';
+										}
 
 									}
 							}
@@ -349,7 +362,11 @@ input {
 									$icapacity = array_sum($teamcapacity);
 									$totalcapacity = $row["total"] + ($icapacity - $row["iteration_".substr($iteration, -1)]);
 								}else{
-									$icapacity = $row["iteration_".substr($iteration, -1)];
+									if(is_numeric($iteration)){
+										$icapacity = $row["iteration_".substr($iteration, -1)];
+									}else{
+										$icapacity = 0;
+									}
 									$totalcapacity = $row["total"];
 								}
 
@@ -480,6 +497,7 @@ input {
 			<input type="submit" id="capacity-button-blue" name="showNext" value="Show Next Iteration">
 				<input type="hidden" name="current-art-selected" value="<?php echo $selected_art;?>">
 				<input type="hidden" name="current-team-selected" value="<?php echo $selected_team; ?>">
+				<input type="hidden" name="current-pi-selected" value="<?php echo $selected_pi; ?>">
 				<input type="hidden" name="current-sequence" value="<?php echo $sequence; ?>">
 			</form>
 
@@ -504,8 +522,9 @@ input {
 				$(document).ready(function () {
 
 						$('#info2').DataTable({
-
+							"pageLength":50
 						});
+						autoLoad();
 
 				});
 
