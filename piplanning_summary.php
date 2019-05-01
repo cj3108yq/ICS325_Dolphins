@@ -3,8 +3,7 @@
 
 $nav_selected = "PIPLANNING";
 $left_buttons = "YES";
-$left_selected = "SUMMARY";
-
+$left_selected = "CADENCE";
 
 include("./nav.php");
 global $db;
@@ -139,14 +138,13 @@ $image = "<img src='images/edit.png' align='right' style='max-height: 15px;'/>";
 		
 		//dataPointsJS is used to transfer one object from primArray based on what the user selects in the dropdown.
 		var dataPointsJS = primArray[str];
-		
 		//chart is how the graph is generated. I am interacting with this as minimially as possible.
 		var chart = new CanvasJS.Chart("chartContainer", {
 			animationEnabled: true,
 			exportEnabled: true,
 			theme: "light1", // "light1", "light2", "dark1", "dark2"
 			title:{
-				text: "Program Increment Trains"
+				text: "Simple Column Chart with Index Labels"
 			},
 			data: [{
 				type: "column", //change type to bar, line, area, pie, etc
@@ -157,18 +155,47 @@ $image = "<img src='images/edit.png' align='right' style='max-height: 15px;'/>";
 				dataPoints: dataPointsJS
 			}]
 		});
-		
-		
-		//Not sure if these do anything. Keeping them because I'm too scare to delete outright.
-		//function parseDataPoints () {dataPointsJS;};
-		//parseDataPoints();
-		//chart.options.data[0].dataPoints = dataPointsJS;
-		
 		chart.render();
-		var chartAT = new CanvasJS.Chart("chartContainerAT", {});
-		chartAT.destoy();
+		
+		///////////// Determines the total for the main graph and prints it out below.
+		var primeSum = 0;
+		for (var i = 0; i < primArray[str].length; i++){
+			primeSum += primArray[str][i]['y'];
+		}
+		document.getElementById('chartTotal').innerHTML = "Total: " + primeSum;
+		
+		///////////// Creates secondard graph with the first AT as default. 
+		var labelAT = pidNum+primArray[str][0]['label'];
+		var dataPointsJSAT = primAT[labelAT];
+		
+		var chartAT = new CanvasJS.Chart("chartContainerAT", {
+			animationEnabled: true,
+			exportEnabled: true,
+			theme: "light1", // "light1", "light2", "dark1", "dark2"
+			title:{
+			text: "Simple Column Chart with Index Labels"
+		},
+		data: [{
+			type: "column", //change type to bar, line, area, pie, etc
+			//indexLabel: "{y}", //Shows y value on all Data Points
+			indexLabelFontColor: "#5A5757",
+			indexLabelPlacement: "outside",   
+			dataPoints: dataPointsJSAT
+			}]
+		});
+		chartAT.render();
+		getAtTable(primArray[str][0]['label'], str);
+		
+		///////////// Determines the total for the secondard graph and prints it out below.
+		var primeSumAT = 0;
+		for (var i = 0; i < primAT[labelAT].length; i++){
+			primeSumAT += primAT[labelAT][i]['y'];
+		}
+		document.getElementById('chartTotalAT').innerHTML = "Total: " + primeSumAT;
 
+		
     }
+	
 	//Function for when a user clicks a graph bar. 
 	function onClick(e) {
 		//Step 3: pidNum is then concatenated here with teamID to form unique ID
@@ -180,7 +207,7 @@ $image = "<img src='images/edit.png' align='right' style='max-height: 15px;'/>";
 			exportEnabled: true,
 			theme: "light1", // "light1", "light2", "dark1", "dark2"
 			title:{
-				text: "Agile Teams"
+				text: "Simple Column Chart with Index Labels"
 			},
 			data: [{
 				type: "column", //change type to bar, line, area, pie, etc
@@ -195,10 +222,13 @@ $image = "<img src='images/edit.png' align='right' style='max-height: 15px;'/>";
 		//chartAT.options.data[0].dataPoints = dataPointsJSAT;
 		chartAT.render();
 		
+		
 	}
 	
 	
     function getAtTable(str, cadence) {
+		
+		
         if (str == "") {
             document.getElementById("atTable").innerHTML = "";
             return;
@@ -232,7 +262,7 @@ $image = "<img src='images/edit.png' align='right' style='max-height: 15px;'/>";
 			
 
 				<label for="iteration_id">Program Increment ID</label>
-				<select name="increment_id" id="increment_id" onchange="getArtTable(this.value); getAtTable();" >
+				<select name="increment_id" id="increment_id" onchange="getArtTable(this.value)" >
 					<?php echo "<option value='". ((empty($incrementId)) ? $todayCadence : $incrementId)."'>".((empty($incrementId)) ? $todayCadence : $incrementId)."</option>";?>
 					<?php	if ($cadenceResults->num_rows > 0){
 						while ($row = $cadenceResults->fetch_assoc()) {
@@ -255,22 +285,19 @@ $image = "<img src='images/edit.png' align='right' style='max-height: 15px;'/>";
 
   <script type="text/javascript">
          $(document).ready( function () {
-         $('#table_id').DataTable();
-		 $('#table_ids').DataTable();
+         $('#div_table').DataTable();
         
              } );
     </script>
         
 
 <!--This is where the chart container appears.-->       
-<div id="chartContainer" style="height: 370px; width: 75%;"></div>
+<div id="chartContainer" style="height: 370px; width: 100%;"></div>
 <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
-<h4>Total capacity of PI = </php echo $artSum?></h4>
-
-<div id="chartContainerAT" style="height: 370px; width: 75%;"></div>
+<div id="chartTotal"></div>
+<div id="chartContainerAT" style="height: 370px; width: 100%;"></div>
 <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
-  
+<div id="chartTotalAT"></div>
   </body>
 
 <!-- <?php include("./footer.php"); ?> -->
-
