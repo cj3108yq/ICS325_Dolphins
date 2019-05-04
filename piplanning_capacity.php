@@ -49,6 +49,10 @@
 
 	}
 
+	if(isset($_POST['current-iteration-selected'])){
+		$iteration = $_POST['current-iteration-selected'];
+	}
+
 	if (isset($_POST['current-team-selected'])) {
 			$selected_team = $_POST['current-team-selected'];
 
@@ -58,7 +62,7 @@
 
 	}
 	if (isset($_POST['current-pi-selected'])) {
-			$selected_pi = $_POST['current-pi-selected'];
+			$program_increment = $_POST['current-pi-selected'];
 	}
 
 	if (isset($_POST['showNext'])) {
@@ -357,12 +361,11 @@
 
 						if ($result->num_rows > 0) {
 								$row = $result->fetch_assoc();
-
 								if (isset($teamcapacity)  && !isset($_POST['restore'])  && !isset($_POST['submit0'])){
 									$icapacity = array_sum($teamcapacity);
 									$totalcapacity = $row["total"] + ($icapacity - $row["iteration_".substr($iteration, -1)]);
 								}else{
-									if(is_numeric($iteration)){
+									if(substr($iteration, -1)!="P"){
 										$icapacity = $row["iteration_".substr($iteration, -1)];
 									}else{
 										$icapacity = 0;
@@ -497,7 +500,8 @@
 			<input type="submit" id="capacity-button-blue" name="showNext" value="Show Next Iteration">
 				<input type="hidden" name="current-art-selected" value="<?php echo $selected_art;?>">
 				<input type="hidden" name="current-team-selected" value="<?php echo $selected_team; ?>">
-				<input type="hidden" name="current-pi-selected" value="<?php echo $selected_pi; ?>">
+				<input type="hidden" name="current-pi-selected" value="<?php echo $program_increment; ?>">
+				<input type="hidden" name="current-iteration-selected" value="<?php echo $iteration; ?>">
 				<input type="hidden" name="current-sequence" value="<?php echo $sequence; ?>">
 			</form>
 
